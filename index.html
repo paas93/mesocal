@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>메소 현금가치 계산기</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    label { display: block; margin: 12px 0 6px; font-weight: 600; }
+    input { width: 100%; padding: 8px 10px; font-size: 16px; box-sizing: border-box; }
+    .result { margin-top: 16px; padding: 12px; background: #f5f7fa; border: 1px solid #e3e7ee; border-radius: 8px; }
+    .small { color: #666; font-size: 13px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>메소 현금가치 계산기</h1>
+
+  <label for="price">월코 시세</label>
+  <input id="price" type="number" step="0.0001" placeholder="월코 시세를 입력하세요" />
+
+  <label for="meso">보유 메소</label>
+  <input id="meso" type="number" step="1" placeholder="보유 메소를 입력하세요" />
+
+  <div class="result">
+    <div><strong>메소 현금가치:</strong> <span id="value">0원</span></div>
+    
+  </div>
+
+  <script>
+    const priceEl = document.getElementById('price');
+    const mesoEl  = document.getElementById('meso');
+    const valueEl = document.getElementById('value');
+
+    function formatNumber(n) {
+      if (!isFinite(n)) return '계산 불가';
+      // 소수점 제거, 천 단위 콤마, "원" 붙이기
+      return Math.floor(n).toLocaleString('ko-KR') + '원';
+    }
+
+    function calc() {
+      const price = parseFloat(priceEl.value);
+      const meso  = parseFloat(mesoEl.value);
+
+      if (isNaN(price) || isNaN(meso) || price === 0) {
+        valueEl.textContent = price === 0 ? '시세가 0이면 계산 불가' : '값을 입력하세요';
+        return;
+      }
+
+      const result = (7.5 / price) * meso;
+      valueEl.textContent = formatNumber(result);
+    }
+
+    priceEl.addEventListener('input', calc);
+    mesoEl.addEventListener('input', calc);
+  </script>
+</body>
+</html>
