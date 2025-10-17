@@ -6,8 +6,25 @@
   <style>
     body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
     label { display: block; margin: 12px 0 6px; font-weight: 600; }
-    input { width: 100%; padding: 8px 10px; font-size: 16px; box-sizing: border-box; }
-    .result { margin-top: 16px; padding: 12px; background: #f5f7fa; border: 1px solid #e3e7ee; border-radius: 8px; }
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .result {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f5f7fa;
+      border: 1px solid #e3e7ee;
+      border-radius: 8px;
+    }
     .small { color: #666; font-size: 13px; margin-top: 4px; }
   </style>
 </head>
@@ -15,14 +32,14 @@
   <h1>메소 현금가치 계산기</h1>
 
   <label for="price">월코 시세</label>
-  <input id="price" type="number" step="0.0001" placeholder="월코 시세를 입력하세요" />
+  <input id="price" type="number" placeholder="월코 시세를 입력하세요" />
 
   <label for="meso">보유 메소</label>
-  <input id="meso" type="number" step="1" placeholder="보유 메소를 입력하세요" />
+  <input id="meso" type="number" placeholder="보유 메소를 입력하세요" />
 
   <div class="result">
     <div><strong>메소 현금가치:</strong> <span id="value">0원</span></div>
-    
+    <div class="small">계산식: 7.5 / 월코 시세 × 보유 메소</div>
   </div>
 
   <script>
@@ -32,8 +49,7 @@
 
     function formatNumber(n) {
       if (!isFinite(n)) return '계산 불가';
-      // 소수점 제거, 천 단위 콤마, "원" 붙이기
-      return Math.floor(n).toLocaleString('ko-KR') + '원';
+      return Math.round(n).toLocaleString('ko-KR') + '원';
     }
 
     function calc() {
